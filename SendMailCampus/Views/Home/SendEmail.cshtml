@@ -1,0 +1,24 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Send Email";
+}
+
+<h2>Send Email</h2>
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+{
+    <h3>@ViewBag.Message</h3>
+}
+
+@using (Html.BeginForm("SendEmail"))
+{
+    <label>To</label>
+    <input type="text" name="to" value="srkirkland@ucdavis.edu"/>
+    
+    <label>Body</label>
+    <textarea>Sample email message goes here</textarea>
+    
+    <label>Send</label>
+    <input type="submit" value="Send!" />
+}
