@@ -11,13 +11,13 @@
     <h3>@ViewBag.Message</h3>
 }
 
-@using (Html.BeginForm("SendEmail"))
+@using (Html.BeginForm("SendEmail", "Home"))
 {
     <label>To</label>
     <input type="text" name="to" value="srkirkland@ucdavis.edu"/>
     
     <label>Body</label>
-    <textarea>Sample email message goes here</textarea>
+    <textarea name="body">Sample email message goes here</textarea>
     
     <label>Send</label>
     <input type="submit" value="Send!" />
