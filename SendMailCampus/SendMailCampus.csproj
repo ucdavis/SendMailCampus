@@ -247,6 +247,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="cert.cer" />
+    <Content Include="p7cert.p7b" />
     <None Include="Properties\PublishProfiles\prepurchasingtest - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\prepurchasingtest - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
