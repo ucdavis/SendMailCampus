@@ -12,7 +12,7 @@ namespace SendMailCampus.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+            ViewBag.Message = "Settings: port 25 and no SSL";
 
             return View();
         }
@@ -27,6 +27,8 @@ namespace SendMailCampus.Controllers
         {
             var client = new SmtpClient("bulkmail2.ucdavis.edu");
             client.ClientCertificates.Add(new X509Certificate(Server.MapPath("~/cert.cer")));
+            //client.EnableSsl = true;
+            client.Port = 25;
             client.Send("srkirkland@ucdavis.edu", to, "bulkmail sample", body);
 
             ViewBag.Message = string.Format("Email sent at {0}", DateTime.Now);
