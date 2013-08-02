@@ -10,9 +10,12 @@ namespace SendMailCampus.Controllers
 {
     public class HomeController : Controller
     {
+        private const int Port = 587;
+        private const bool EnableSsl = false;
+
         public ActionResult Index()
         {
-            ViewBag.Message = "Settings: port 25 and no SSL";
+            ViewBag.Message = string.Format("Settings: port {0} and SSL->{1}.  Using IP {2}", Port, EnableSsl, Request.ServerVariables["LOCAL_ADDR"]);
 
             return View();
         }
@@ -27,8 +30,8 @@ namespace SendMailCampus.Controllers
         {
             var client = new SmtpClient("bulkmail2.ucdavis.edu");
             client.ClientCertificates.Add(new X509Certificate(Server.MapPath("~/cert.cer")));
-            //client.EnableSsl = true;
-            client.Port = 25;
+            client.EnableSsl = EnableSsl;
+            client.Port = Port;
             client.Send("srkirkland@ucdavis.edu", to, "bulkmail sample", body);
 
             ViewBag.Message = string.Format("Email sent at {0}", DateTime.Now);
