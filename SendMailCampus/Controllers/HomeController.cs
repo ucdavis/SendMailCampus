@@ -28,13 +28,20 @@ namespace SendMailCampus.Controllers
         [HttpPost]
         public ActionResult SendEmail(string body, string to)
         {
-            var client = new SmtpClient("bulkmail2.ucdavis.edu");
-            client.ClientCertificates.Add(new X509Certificate(Server.MapPath("~/cert.cer")));
-            client.EnableSsl = EnableSsl;
-            client.Port = Port;
-            client.Send("srkirkland@ucdavis.edu", to, "bulkmail sample", body);
+            try
+            {
+                var client = new SmtpClient("bulkmail2.ucdavis.edu");
+                client.ClientCertificates.Add(new X509Certificate(Server.MapPath("~/cert.cer")));
+                client.EnableSsl = EnableSsl;
+                client.Port = Port;
+                client.Send("srkirkland@ucdavis.edu", to, "bulkmail sample", body);
+                ViewBag.Message = string.Format("Email sent at {0}", DateTime.Now);
+            }
+            catch (Exception exception)
+            {
+                ViewBag.Message = string.Format("Email send failed because: {0}", exception.GetBaseException().Message);
+            }
 
-            ViewBag.Message = string.Format("Email sent at {0}", DateTime.Now);
             return View();
         }
 
