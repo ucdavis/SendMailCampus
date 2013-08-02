@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
@@ -11,7 +12,7 @@ namespace SendMailCampus.Controllers
     public class HomeController : Controller
     {
         private const int Port = 587;
-        private const bool EnableSsl = false;
+        private const bool EnableSsl = true;
 
         public ActionResult Index()
         {
@@ -32,6 +33,8 @@ namespace SendMailCampus.Controllers
             {
                 var client = new SmtpClient("bulkmail2.ucdavis.edu");
                 client.ClientCertificates.Add(new X509Certificate(Server.MapPath("~/cert.cer")));
+                client.ClientCertificates.Add(new X509Certificate(Server.MapPath("~/prepurchasingtest.cer")));
+                client.UseDefaultCredentials = false;
                 client.EnableSsl = EnableSsl;
                 client.Port = Port;
                 client.Send("srkirkland@ucdavis.edu", to, "bulkmail sample", body);
