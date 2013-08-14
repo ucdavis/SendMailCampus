@@ -11,13 +11,8 @@ namespace SendMailCampus.Controllers
 {
     public class HomeController : Controller
     {
-        private const int Port = 587;
-        private const bool EnableSsl = true;
-
         public ActionResult Index()
         {
-            ViewBag.Message = string.Format("Settings: port {0} and SSL->{1}.  Using IP {2}", Port, EnableSsl, Request.ServerVariables["LOCAL_ADDR"]);
-
             return View();
         }
 
@@ -29,15 +24,19 @@ namespace SendMailCampus.Controllers
         [HttpPost]
         public ActionResult SendEmail(string body, string to)
         {
+            const int port = 587;
+            const bool enableSsl = true;
+
+            ViewBag.Message = string.Format("Settings: port {0} and SSL->{1}.  Using IP {2}", port, enableSsl, Request.ServerVariables["LOCAL_ADDR"]);
+            
             try
             {
-                var client = new SmtpClient("bulkmail2.ucdavis.edu");
-                client.ClientCertificates.Add(new X509Certificate(Server.MapPath("~/cert.cer")));
+                var client = new SmtpClient("bulkmail-dev.ucdavis.edu") {UseDefaultCredentials = false};
                 client.ClientCertificates.Add(new X509Certificate(Server.MapPath("~/prepurchasingtest.cer")));
-                client.UseDefaultCredentials = false;
-                client.EnableSsl = EnableSsl;
-                client.Port = Port;
+                client.EnableSsl = enableSsl;
+                client.Port = port;
                 client.Send("srkirkland@ucdavis.edu", to, "bulkmail sample", body);
+                
                 ViewBag.Message = string.Format("Email sent at {0}", DateTime.Now);
             }
             catch (Exception exception)
